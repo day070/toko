@@ -71,7 +71,7 @@ function generateRandomString($length = 10)
                 </div>
                 <div>
                     <label for="curent-foto">Foto Produk Sekarang</label><br>
-                    <img src="../image/<?php echo $data['foto']; ?>" width="300px">
+                    <img src="../image/<?php echo $data['foto']; ?>" width="300px" height="300px">
                 </div>
                 <div>
                     <label for="foto">Foto</label><br>
@@ -131,49 +131,51 @@ function generateRandomString($length = 10)
                 </div>
                 <?php
             } else {
+                $queryUPDATE = mysqli_query($con, "UPDATE produk SET kategori_id='$kategori', nama='$nama', harga='$harga', detail='$detail', ketersediaan_stok='$ketersediaan_stok' WHERE id=$id ");
+
                 // pembatasan Size File
                 if ($nama_file != '') {
-                    if ($image_size > 500000) {
+                    if ($image_size > 5000000) {
                         ?>
                         <div class="alert alert-danger mt-3" role="alert">
-                            Foto tidak boleh lebih darik 500kb
+                            Foto tidak boleh lebih dari 500kb
                         </div>
                         <?php
                     } else {
                         if ($tipe_file != 'jpg' && $tipe_file != 'png' && $tipe_file != 'gif') {
                             ?>
                             <div class="alert alert-danger mt-3" role="alert">
-                                tipe file tidak diperbolehkan
+                                tipe file tidak diperbolehkan file diluar formart format 'jpg' 'png' 'gif'
                             </div>
                             <?php
                         } else {
 
                             move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $newName);
+                            $queryUPDATE = mysqli_query($con,"UPDATE produk SET foto='$newName' WHERE id='$id' ");
+                            if ($queryUPDATE) {
+                                ?>
+                                    <div class="alert alert-primary mt-3" role="alert">
+                                         Produk berhasil di Simpan!
+                                    </div>
+                                    <meta http-equiv="refresh" content="2; url=produk.php"/>
+                                <?php
+                            }else{
+                                    echo mysqli_error($con);
+                            }
+                    }
                         }
                     }
 
                 }
-                // inseert
-                $queryUPDATE = mysqli_query($con, "UPDATE produk SET kategori_id='$kategori', nama='$nama', harga='$harga', detail='$detail', ketersediaan_stok='$ketersediaan_stok' WHERE id=$id ");
-                if ($queryUPDATE) {
-                    ?>
-                    <div class="alert alert-primary mt-3" role="alert">
-                        Produk berhasil di Simpan!
-                    </div>
-                    <meta http-equiv="refresh" content="2; url=produk.php" />
-                    <?php
-                } else {
-                    echo mysqli_error($con);
-                }
+               
             }
-        }
+        
         if (isset($_POST['deleteBtn'])) {
             $queryDelete = mysqli_query($con, "DELETE  FROM produk WHERE id='$id'");
             if ($queryDelete) {
                 ?>
                 Terhapus!
             </div>
-
             <meta http-equiv="refresh" content="2, url=produk.php" />
             <?php
             }
