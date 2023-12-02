@@ -1,9 +1,10 @@
 <?php
 require "session.php";
 require "../koneksi.php";
+$id = $_GET['q'];
+$query = mysqli_query($con, "SELECT * FROM kategori WHERE id='$id'");
+$data = mysqli_fetch_array($query);
 
-$queryKategori = mysqli_query($con, "SELECT * FROM kategori");
-$jumlahKategori = mysqli_num_rows($queryKategori);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,117 +12,92 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kategori</title>
+    <title>Detail Kategori</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 </head>
-<style>
-    .no-decoration {
-        text-decoration: none;
-    }
-</style>
 
 <body>
     <?php require "navbar.php"; ?>
     <div class="container mt-5">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">
-                    <a href="../adminpanel" class="no-decoration text-muted"><i class="bi bi-house"></i> Home</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    Kategori
-                </li>
-            </ol>
-        </nav>
-        <div class="my-5 col-12 col-md-6">
-            <h3>Tambah Kategori</h3>
+        <h2>Detail Kategori</h2>
+        <div class="col-12 col-md-6">
 
             <form action="" method="post">
                 <div>
-                    <label for="kategori">Kategori</label>
-                    <input type="text" name="kategori" id="kategori" placeholder="input nama kategori"
-                        class="form-control" required>
+                    <label for="kategori">kategori</label>
+                    <input type="text" name="kategori" id="kategori" value="<?php echo $data['nama']; ?>"
+                        class="form-control">
                 </div>
-                <div class="mt-3">
-                    <button class="btn btn-primary" type="submit" name="simpan_Kategori">Simpan</button>
+                <div class="mt-5">
+                    <button type="submit" class="btn btn-primary" name="editBtn">Edit</button>
+                    <button type="submit" class="btn btn-danger" name="deleteBtn">Hapus</button>
                 </div>
             </form>
             <?php
-            if (isset($_POST['simpan_Kategori'])) {
+            if (isset($_POST['editBtn'])) {
                 $kategori = htmlspecialchars($_POST['kategori']);
-                $cek = mysqli_query($con, "SELECT nama FROM kategori WHERE nama='$kategori'");
-                $jumlahKategoriBaru = mysqli_num_rows($cek);
-
-                if ($jumlahKategoriBaru > 0) {
+                if ($data['nama'] == $kategori) {
                     ?>
-                    <div class="alert alert-danger mt-3" role="alert">
-                        Kategori sudah ada!
-                    </div>
+                    <meta http-equiv="refresh" content="0; url=kategori.php" />
                     <?php
                 } else {
-                    $querySimpan = mysqli_query($con, "INSERT INTO kategori (nama) VALUES('$kategori')");
-                    if ($querySimpan) {
-                        ?>
-                        <div class="alert alert-primary mt-3" role="alert">
-                            Kategori berhasil di SImpan!
-                        </div>
-                        <meta http-equiv="refresh" content="2; url=kategori.php" />
-                        <?php
+                    $query = mysqli_query($con, "SELECT * FROM kategori WHERE nama='$kategori'");
+                    $jumlahData = mysqli_num_rows($query);
 
+                    if ($jumlahData > 0) {
+                        ?>
+                        <div class="alert alert-danger mt-3" role="alert">
+                            Kategori sudah ada!
+                        </div>
+                        <?php
                     } else {
-                        echo mysqli_error($con);
+                        $querySimpan = mysqli_query($con, "UPDATE kategori SET nama='$kategori' WHERE id='$id'");
+
+                        if ($querySimpan) {
+                            ?>
+                            <div class="alert alert-primary mt-3" role="alert">
+                                Berhasil edit kategori!
+                            </div>
+                            <meta http-equiv="refresh" content="2; url=kategori.php" />
+                            <?php
+
+                        } else {
+                            echo mysqli_error($con);
+                        }
                     }
                 }
-
             }
+
+            if (isset($_POST['deleteBtn'])) {
+                $queryCek = mysqli_query($con, "SELECT * FROM  produk WHERE kategori_id='$id'");
+                $dataCuy = mysqli_num_rows($queryCek);
+                $queryDelete = mysqli_query($con, "DELETE  FROM kategori WHERE id='$id'");
+                if ($dataCuy > 0) {
+                    ?>
+
+                    <div class="alert alert-danger mt-3" role="alert">
+                        Gagal Tejkrhapus Kategori Sedang Digunakan!
+                    </div>
+                    <?php
+                    die();
+                }
+                if ($queryDelete) {
+                    ?>
+                    <div class="alert alert-primary mt-3" role="alert">
+                        Terhapus!
+                    </div>
+
+                    <meta http-equiv="refresh" content="2, url=kategori.php" />
+                    <?php
+                } else {
+                }
+            }
+
+
             ?>
         </div>
-        <div class="mt-3">
-            <h2>List Kategori</h2>
-            <div class="table-responsive mt-5">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($jumlahKategori == 0) {
-                            ?>
-                            <tr>
-                                <td colspan=3 class="text-center">Data Kategori tidak tersedia</td>
-                            </tr>
-                            <?php
-                        } else {
-                            $jumlah = 1;
-                            while ($data = mysqli_fetch_array($queryKategori)) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $jumlah; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $data['nama']; ?>
-                                    </td>
-                                    <td>
-                                        <a href="kategori-detail.php?q=<?php echo $data['id']; ?>" class="btn btn-info"><i
-                                                class="bi bi-search"></i></a>
-                                    </td>
-                                </tr>
-                                <?php
-                                $jumlah++;
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
+
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
