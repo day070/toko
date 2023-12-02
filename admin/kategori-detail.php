@@ -76,7 +76,7 @@ $data = mysqli_fetch_array($query);
                     ?>
 
                     <div class="alert alert-danger mt-3" role="alert">
-                        Gagal Terhapus Kategori Sedang Digunakan!
+                        Gagal Tejkrhapus Kategori Sedang Digunakan!
                     </div>
                     <?php
                     die();
