@@ -1,0 +1,49 @@
+.warna1 {
+  background-color: #876445;
+}
+.warna2 {
+  background-color: #ca965c;
+}
+.warna3 {
+  background-color: #eec373;
+}
+.warna4 {
+  background-color: #f4dfba;
+}
+
+.banner {
+  height: 80vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../image/banner.jpg");
+  background-size: cover;
+}
+.highlighted-kategori-keyboard {
+  height: 250px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../image/keyboard.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.highlighted-kategori-laptop {
+  height: 250px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../image/laptop.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.highlighted-kategori-mouse {
+  height: 250px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../image/mouse.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.text-harga {
+  font-size: 22px;
+  color: #ca965c;
+}
