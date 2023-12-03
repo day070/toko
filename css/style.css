@@ -4,6 +4,11 @@
 .warna2 {
   background-color: #ca965c;
 }
+.warna2:hover {
+  opacity: 0.8;
+  transition: 0.5s;
+  background-color: #ca965c;
+}
 .warna3 {
   background-color: #eec373;
 }
@@ -19,21 +24,21 @@
 }
 .highlighted-kategori-keyboard {
   height: 250px;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url("../image/keyboard.jpg");
   background-size: cover;
   background-position: center;
 }
 .highlighted-kategori-laptop {
   height: 250px;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url("../image/laptop.jpg");
   background-size: cover;
   background-position: center;
 }
 .highlighted-kategori-mouse {
   height: 250px;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url("../image/mouse.jpg");
   background-size: cover;
   background-position: center;
@@ -46,4 +51,39 @@
 .text-harga {
   font-size: 22px;
   color: #ca965c;
+}
+.image-box {
+  height: 250px;
+}
+.image-box img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.content-subcribe {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.content-subcribe a {
+  color: #fff;
+}
+.icot:hover {
+  transition: 0.3s;
+  color: rgb(204, 204, 204);
+  cursor: pointer;
+}
+
+.banner-2 {
+  height: 45vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../image/banner.jpg");
+  background-size: cover;
+  background-position: 50% 10%;
+}
+
+.produk-terkait-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
 }
