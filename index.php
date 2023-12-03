@@ -11,6 +11,7 @@ $queryProduk = mysqli_query($con, "SELECT id, nama, harga, foto, detail FROM pro
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko Online | Home</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -24,7 +25,8 @@ $queryProduk = mysqli_query($con, "SELECT id, nama, harga, foto, detail FROM pro
             <div class="col-md-8 offset-md-2">
                 <form action="produk.php" method="get">
                     <div class="input-group input-group-lg my-4 mb-3">
-                        <input type="text" class="form-control" placeholder="Nama Barang..." name="keyword">
+                        <input type="text" class="form-control" placeholder="Nama Barang..." name="keyword"
+                            autocomplete="off">
                         <button type="submit" class="btn warna2 text-white">Telusuri</button>
                     </div>
                 </form>
@@ -35,7 +37,7 @@ $queryProduk = mysqli_query($con, "SELECT id, nama, harga, foto, detail FROM pro
     <!-- kategori -->
     <div class="container-fluid py-5">
         <div class="container text-center">
-            <h3>Anjay</h3>
+            <h3>Produk Terlaris</h3>
 
             <div class="row mt-5">
                 <div class="col-md-4 col-sm-6 mb-4">
@@ -88,8 +90,10 @@ $queryProduk = mysqli_query($con, "SELECT id, nama, harga, foto, detail FROM pro
             <div class="row mt-5">
                 <?php while ($dataProduk = mysqli_fetch_array($queryProduk)) { ?>
                     <div class="col-sm-6 col-md-4 mb-3">
-                        <div class="card">
-                            <img src="image/<?php echo $dataProduk['foto'] ?>" class="card-img-top">
+                        <div class="card h-100">
+                            <div class="image-box">
+                                <img src="image/<?php echo $dataProduk['foto'] ?>" class="card-img-top">
+                            </div>
                             <div class="card-body">
                                 <h4 class="card-title">
                                     <?php echo $dataProduk['nama'] ?>
@@ -100,7 +104,9 @@ $queryProduk = mysqli_query($con, "SELECT id, nama, harga, foto, detail FROM pro
                                 <p class="card-text text-harga">Rp
                                     <?php echo $dataProduk['harga'] ?>
                                 </p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <a href="produk-detail.php?nama=<?php echo $dataProduk['nama'] ?>"
+                                    class="btn warna2 text-white">Lihat
+                                    detail</a>
                             </div>
                         </div>
                     </div>
@@ -108,8 +114,13 @@ $queryProduk = mysqli_query($con, "SELECT id, nama, harga, foto, detail FROM pro
                     $dataProduk++;
                 } ?>
             </div>
+            <a class="btn btn-outline-warning mt-3 p-2 fs-4" href="produk.php">See More</a>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+    <!-- Footer -->
+    <?php include("footer.php") ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
