@@ -5,7 +5,9 @@ $queryKategori = mysqli_query($con, "SELECT * FROM kategori");
 //get produk keyword
 if (isset($_GET['keyword'])) {
     $nama = $_GET['keyword'];
-    $queryProduk = mysqli_query($con, "SELECT * FROM produk WHERE nama LIKE '%$nama%'");
+    $queryGetKategoriId = mysqli_query($con, "SELECT id FROM kategori WHERE nama LIKE '%$nama%' ");
+    $kategoriId = mysqli_fetch_array($queryGetKategoriId);
+    $queryProduk = mysqli_query($con, "SELECT * FROM produk WHERE kategori_id = '$kategoriId[id]' OR nama LIKE '%$nama%'");
 }
 //get produk kategori
 else if (isset($_GET['kategori'])) {
@@ -17,9 +19,10 @@ else if (isset($_GET['kategori'])) {
 
 //get produk defaut
 else {
-    $queryProduk = mysqli_query($con, "SELECT * FROM produk");
+    $queryProduk = mysqli_query($con, "SELECT * FROM produk ORDER BY id DESC");
 
 }
+$countData = mysqli_num_rows($queryProduk);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +39,7 @@ else {
 <body>
     <?php require("navbar.php") ?>
     <!-- Banner -->
-    <div class="container-fluid banner-produk d-flex align-items-center">
+    <div class="container-fluid banner-2 d-flex align-items-center">
         <div class="container">
             <h1 class="text-white text-center">Produk</h1>
         </div>
@@ -63,9 +66,17 @@ else {
                     <?php } ?>
                 </ul>
             </div>
+            <!-- Produk -->
             <div class="col-lg-9">
                 <h3 class="mb-3 text-center">Produk</h3>
                 <div class="row">
+                    <?php
+                    if ($countData < 1) {
+                        ?>
+                        <h4 class="text-center my-5">Produk yang anda carik tidak tersedia</h4>
+                        <?php
+                    }
+                    ?>
                     <?php while ($produk = mysqli_fetch_array($queryProduk)) { ?>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100">
@@ -82,7 +93,7 @@ else {
                                     <p class="card-text text-harga">Rp
                                         <?php echo $produk['harga'] ?>
                                     </p>
-                                    <a href="produk-detail.php?nama=<?php echo $dataProduk['nama'] ?>"
+                                    <a href="produk-detail.php?nama=<?php echo $produk['nama'] ?>"
                                         class="btn warna2 text-white">Lihat
                                         detail</a>
                                 </div>
@@ -95,6 +106,8 @@ else {
             </div>
         </div>
     </div>
+    <!-- Footer -->
+    <?php include("footer.php") ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
